@@ -42,11 +42,7 @@ def plotPose(T, axis = [ -5, 10, -5, 10]):
 	las columnas de la matriz R dentro de la th, cada columna es un vector de longitud 1 apuntando en la direccion
 	de los componentes de la pose.
 	'''
-    #Configuramos la grafica
-	plt.xlabel('eje x')
-	plt.ylabel('eje y')
-	plt.axis(axis)
-    #Graficamos la pose
+
 	for i in range(2):	
 		xrot = T[0][i]
 		yrot = T[1][i]
@@ -55,7 +51,9 @@ def plotPose(T, axis = [ -5, 10, -5, 10]):
 		y = T[1][2]  
 
 		plt.plot([x, x + xrot], [y, y + yrot], 'o:r',	alpha=0.3)
-
+	plt.xlabel('eje x')
+	plt.ylabel('eje y')
+	plt.axis(axis)
 	plt.show()
 	return
 
@@ -78,7 +76,7 @@ def trasl(x, y):
 
 def rot(theta, tipo = 'rad'):
 	"""Esta funcion regresa la matriz de transformacion
-	homogenea 3*3 de una rotacion dado un angulo
+	homogenea 3*3 de una rotacion en el eje x dado un angulo
 	theta. Utiliza radianes por defecto, pero se pueden dar el
 	angulo en grados"""
 
