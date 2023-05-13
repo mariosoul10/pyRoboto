@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 
 
-def plot2D(eslabones):
+def plotTH(THs, axis = [0, 20, 0, 20]):
 	"""
 	Esta funcion grafica una serie de transformaciones homogeneas 3*3
 	de una lista THs. totalTH es la matriz que vamos a aplicar las th sucesivas, 
@@ -12,27 +12,36 @@ def plot2D(eslabones):
 	"""
 
 	#Creamos la figura que utilizaremos para graficar en 3d
-	#ax = plt.figure().add_subplot(projection='3d')
-	ax.set_xlabel('x')
-	ax.set_ylabel('y')
-	ax.set_zlabel('z')
+	fig, ax = plt.subplots()
+	plt.xlabel('eje x')
+	plt.ylabel('eje y')
 	#Creamos las variables que vamos a utilizar 
-	n = len(eslabones)
-	totalEsl = np.eye(2)										
+	n = len(THs)
+	totalTH = np.eye(3)
+	# El origen con zeros								
 	x = np.zeros(n+1)
 	y = np.zeros(n+1)
+	colors = ['r', 'b', ..., 'w']
 
 	#Multiplicamos los eslabones sucesivamente y guardamos las coordenadas del vector de posicon p 
 	for i in range(n):
-		totalEsl = np.dot(totalTH, THs[i])
-		x[i+1] = totalTH[0][3]
-		y[i+1] = totalTH[1][3]
-		z[i+1] = totalTH[2][3]
+		totalTH = np.dot(totalTH, THs[i])
+		x[i+1] = totalTH[0][2]
+		y[i+1] = totalTH[1][2]
+
+		for j in range(2):	
+			xr = totalTH[0][j]
+			yr = totalTH[1][j]
+			
+			xp = totalTH[0][2]
+			yp = totalTH[1][2] 
+		
+			ax.plot([xp, xp + xr], [yp, yp + yr], 'o', alpha=0.3)
 
 
 	#Graficamos
-	ax.plot(x, y, z, color = 'r', marker='o', linewidth = '5')
-	plt.axis('equal');
+	ax.plot(x, y, color = 'r', marker='o', linewidth = '5')
+	plt.axis(axis);
 	plt.show()
 	return 
 
@@ -54,7 +63,7 @@ def plotPose(T, axis = [ -5, 10, -5, 10]):
 		x = T[0][2]
 		y = T[1][2]  
 
-		plt.plot([x, x + xrot], [y, y + yrot], 'o:r',	alpha=0.3)
+		ax.plot([x, x + xrot], [y, y + yrot], 'o:r',	alpha=0.3)
 
 	plt.show()
 	return
@@ -95,11 +104,11 @@ def rot(theta, tipo = 'rad'):
 
 T = trasl(1, 5) 
 B = trasl(0, 8)
-H = rot(150,'grados')
+H = rot(45,'grados')
 
 print (np.dot(T,H))
-plotPose(np.dot(T,H))
-#plotTH([T, H, B, G, T])
+#plotPose(np.dot(T,H))
+plotTH([T, B, H])
 
 
 # q = [0, -pi/4, -pi/4, pi/8, 0]
